@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/JavaDemo.iml" filepath="$PROJECT_DIR$/JavaDemo.iml" />
-      <module fileurl="file://$PROJECT_DIR$/src/JavaDemo1.iml" filepath="$PROJECT_DIR$/src/JavaDemo1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Algorithm/Algorithm.iml" filepath="$PROJECT_DIR$/Algorithm/Algorithm.iml" />
+      <module fileurl="file://$PROJECT_DIR$/JavaSE_guigu/JavaSE_guigu.iml" filepath="$PROJECT_DIR$/JavaSE_guigu/JavaSE_guigu.iml" />
+      <module fileurl="file://$PROJECT_DIR$/JavaSE_itheima/JavaSE_itheima.iml" filepath="$PROJECT_DIR$/JavaSE_itheima/JavaSE_itheima.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SwordPointingToOffer/SwordPointingToOffer.iml" filepath="$PROJECT_DIR$/SwordPointingToOffer/SwordPointingToOffer.iml" />
     </modules>
   </component>
 </project>
