@@ -5,6 +5,14 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
 /**
+ * 说明： 此动态代理的例子实际上是JDK的动态代理实现方式
+ *       实现方式有两种：JDK的proxy、Cglib的proxy
+ *       区别：JDK必须要有接口，被代理类实现接口，代理类相当于被代理类的一个"兄弟"，平级关系
+ *            Cglib不需要接口，但是Cglib的代理类相当于被代理类的一个子类，有一个继承关系
+ *
+ *       Spring的AOP动态代理既有JDK的实现方式，又有Cglib的实现方式。优先默认使用JDK动态代理，如果被代理类没有实现接口，用不了JDK的才会用Cglib的动态代理
+ *
+ *
  * 顶层接口：
  * 动态代理测试:
  *    不论是动态代理还是静态代理都需要有接口和被代理类
@@ -63,17 +71,20 @@ class MyInvocationhandler implements InvocationHandler{
     this.obj = obj;
   }
   /**
-   *  invoke里面写被代理类的方法的逻辑，但是被代理对象还没有需要在上面提前创建
+   *  invoke里面写被代理类的方法的逻辑，但是被代理对象还没有需要在上面提前创建,同时可以实现方法增强AOP
    *    参数1：就是上面ProxyFactory中方法返回的对象
    *    参数2：代理类对象调用的方法，此方法也就作为了被代理类对象要调用的方法
    *    参数3：调用方法传递的实参
    */
   @Override
   public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-    // 传入被代理类对象和参数，调用的是被代理类的哪个方法
-    Object invoke = method.invoke(obj, args);
+    if("getBelif".equals(method.getName())){ // 如果被代理类的方法是getBelif的话，就执行增强
+      System.out.println("增强~~~~~~~~");
+    }
+    // 传入被代理类对象和参数，利用反射的方式调用的是被代理类的方法
+    Object ret = method.invoke(obj, args);
     // 返回的invoke实际上就是被代理类对象的返回值
-    return invoke;
+    return ret;
   }
 }
 /**
@@ -89,7 +100,7 @@ public class DynamicProxy {
     // 2.动态的创建代理类的对象：需要用顶层接口Human接收，因为如果不强转为Human就不能调用被代理类重写的抽象方法，并且她们都实现了Human接口
 
     // 用Object接收是不对的
-    //Object proxyInstance = ProxyFactory.getProxyInstance(man);
+    // Object proxyInstance = ProxyFactory.getProxyInstance(man);
     Human proxyInstance1 = (Human)ProxyFactory.getProxyInstance(man);
     String belief = proxyInstance1.getBelif();
     System.out.println(belief);
