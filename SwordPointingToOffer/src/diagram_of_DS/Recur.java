@@ -5,6 +5,9 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Stack;
 
+/**
+ * 《剑指 Offer 06. 逆序打印链表：百度面试题》
+ */
 public class Recur {
   @Test
   public void testReverseListByRecur(){
@@ -34,7 +37,7 @@ public class Recur {
   /**
    * 逆序打印单链表：[百度面试题]：
    *    方式一：先反转单链表，然后直接遍历即可。但是由于反转了原来的单链表会破坏掉链表的结构，所以不推荐！
-   *    方式二：利用栈的特点 - 后进先出
+   *    方式二：利用栈的特点 - 后进先出 O(n²) 最简单的方式
    *    方式三：使用递归的方法
    */
   public static void reversePrint(ListNode head){

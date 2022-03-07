@@ -7,20 +7,32 @@ package designPatterns23;
  **/
 public class Singleton2 {
   public static void main(String[] args) {
-    Boss boss1 = Boss.getInstance();
-    Boss boss2 = Boss.getInstance();
-    System.out.println("boss1和boss2是一个对象吗 -- "+(boss1==boss2));
+    LazySingleton lazy1 = LazySingleton.getInstance();
+    LazySingleton lazy2 = LazySingleton.getInstance();
+    System.out.println("lazy1和lazy2是一个对象吗 --> "+(lazy1==lazy2));
   }
 }
-class Boss{
-  private Boss(){}
-  private static Boss instance; //创建Boss类变量，默认是null
+class LazySingleton{
+  private LazySingleton(){}
+  private static LazySingleton instance;
 
-  public synchronized static Boss getInstance() { //静态的同步方法，同步监视器是：当前类本身
-    // 先不创建实例对象，什么时候调用getInstance方法，什么时候创建
-    if (instance == null) {
-      // 可能发生阻塞，instance相当于共享数据
-      instance = new Boss();
+  public static LazySingleton getInstance() {
+    // 为了效率问题：在进行同步锁之前，先判断一下instance是否存在，如果已经存在就没必要锁了，直接返回就行了
+    // 就是怕创建多实例的情况下才加的锁
+    if(instance == null){
+      // 使用当前类作为锁对象将具体出现问题的代码用synchronized代码块包住
+      synchronized (LazySingleton.class){
+        // 先不创建实例对象，什么时候调用getInstance方法，什么时候创建
+        if (instance == null) {
+          // 可能发生阻塞，instance相当于共享数据,为了增加出现线程不安全问题的概率，这里让该线程休眠100毫秒
+          try {
+            Thread.sleep(1000);
+          } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+          }
+          instance = new LazySingleton();
+        }
+      }
     }
     return instance;
   }
